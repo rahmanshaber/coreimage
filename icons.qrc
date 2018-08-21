@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/bookit.svg</file>
+        <file>icons/folder.svg</file>
+        <file>icons/fullexit.svg</file>
+        <file>icons/fullscreen.svg</file>
+        <file>icons/properties.svg</file>
+        <file>icons/rotate_left.svg</file>
+        <file>icons/rotate_right.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/slideshow.svg</file>
+        <file>icons/thumbnail.svg</file>
+        <file>icons/tools.svg</file>
+        <file>icons/trash.svg</file>
+        <file>icons/zoom_in.svg</file>
+        <file>icons/zoom_out.svg</file>
+        <file>icons/CoreImage.svg</file>
+        <file>icons/left.svg</file>
+        <file>icons/right.svg</file>
+    </qresource>
+</RCC>
