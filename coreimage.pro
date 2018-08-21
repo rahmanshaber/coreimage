@@ -12,6 +12,7 @@ TEMPLATE = app
 DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
+CONFIG += silent warn_on shared_and_static
 
 # library for theme
 unix:!macx: LIBS += -lcprime
