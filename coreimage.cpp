@@ -17,9 +17,6 @@ along with this program; if not, see {http://www.gnu.org/licenses/}. */
 #include "coreimage.h"
 #include "ui_coreimage.h"
 
-//#include "bookmarks/bookmarks.h"
-#include <cprime/utilities.h>
-#include <cprime/globalfunctions.h>
 
 coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
   ,slideShowTimer(nullptr)

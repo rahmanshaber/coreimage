@@ -42,6 +42,11 @@ along with this program; if not, see {http://www.gnu.org/licenses/}. */
 #include <QtConcurrent>
 #include <QShortcut>
 
+//#include "bookmarks/bookmarks.h"
+#include "cprime/utilities.h"
+#include "cprime/globalfunctions.h"
+
+
 namespace Ui {
 class coreimage;
 }
@@ -55,7 +60,6 @@ public:
     ~coreimage();
 
     void sendFiles(const QStringList &paths);
-
     bool loadFile(const QString &);
     QString workFilePath;
 
