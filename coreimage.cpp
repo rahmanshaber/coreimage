@@ -28,6 +28,7 @@ coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
 
     // set stylesheet from style.qrc
     setStyleSheet(Utilities::getStylesheetFileContent(":/appStyle/style/CoreImage.qss"));
+    qDebug ()<< Utilities::getStylesheetFileContent(":/appStyle/style/CoreImage.qss");
 
     // set window size
     int x = static_cast<int>(Utilities::screensize().width()  * .8);
