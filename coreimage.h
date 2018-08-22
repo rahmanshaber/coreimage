@@ -42,11 +42,6 @@ along with this program; if not, see {http://www.gnu.org/licenses/}. */
 #include <QtConcurrent>
 #include <QShortcut>
 
-#include "utilities.h"
-//#include "bookmarks/bookmarks.h"
-#include "globalfunctions.h"
-
-
 namespace Ui {
 class coreimage;
 }
