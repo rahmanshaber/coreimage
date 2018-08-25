@@ -24,8 +24,7 @@ coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
     ui->setupUi(this);
 
     // set stylesheet from style.qrc
-    setStyleSheet(Utilities::getStylesheetFileContent(":/appStyle/style/CoreImage.qss"));
-    qDebug ()<< Utilities::getStylesheetFileContent(":/appStyle/style/CoreImage.qss");
+    setStyleSheet(Utilities::getStylesheetFileContent(Utilities::StyleAppName::CoreImageStyle));
 
     // set window size
     int x = static_cast<int>(Utilities::screensize().width()  * .8);
@@ -63,6 +62,7 @@ coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
         ui->appTitle->setEnabled(true);
     }
     shotcuts();
+    sildeShow = false;
 }
 
 coreimage::~coreimage()
@@ -98,9 +98,6 @@ void coreimage::shotcuts()
     connect(shortcut, &QShortcut::activated, this, &coreimage::on_bookMarkIt_clicked);
     shortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     connect(shortcut, &QShortcut::activated, [this]() {on_slideShow_clicked(false);});
-//    shortcut = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Space), this);
-//    connect(shortcut, &QShortcut::activated, this, &coreimage::on_slideShow_clicked);
-
 }
 
 void coreimage::closeEvent(QCloseEvent *event)
@@ -397,7 +394,8 @@ void coreimage::on_cTools_clicked(bool checked)
 void coreimage::on_bookMarkIt_clicked()
 {
     if (!workFilePath.isNull()) {
-        GlobalFunc::appEngines("BookMarkIt",workFilePath);
+        bookmarkDialog bk;
+        bk.callBookMarkDialog(this,workFilePath);
     }
 }
 
@@ -426,28 +424,6 @@ void coreimage::on_cNext_clicked()
     }
 }
 
-void coreimage::on_slideShow_clicked(bool checked)
-{
-    if(checked) {
-      on_cNormalSize_clicked();
-      if(!slideShowTimer) {
-        slideShowTimer = new QTimer();
-        // switch to the next image when timeout
-        connect(slideShowTimer, &QTimer::timeout, this, &coreimage::on_cNext_clicked);
-      }
-      ui->imageArea->showFullScreen();
-      slideShowTimer->start(3000);
-      ui->shortcut->setVisible(false);
-      if(ui->cTools->isChecked()){ui->cTools->setChecked(false);}
-    }
-    else {
-      if(slideShowTimer) {
-        delete slideShowTimer;
-        slideShowTimer = nullptr;
-      }
-    }
-}
-
 void coreimage::on_cProperties_clicked(bool checked)
 {
     if(checked){
@@ -473,11 +449,6 @@ void coreimage::on_openThumbview_clicked()
     }
 }
 
-void coreimage::on_containingfolder_clicked()
-{
-    GlobalFunc::appEngine(GlobalFunc::Category::FileManager, QFileInfo(workFilePath).path());
-}
-
 void coreimage::on_thumnailView_itemClicked(QListWidgetItem *item)
 {
     loadFile(images.at(ui->thumnailView->row(item)));
@@ -488,7 +459,7 @@ void coreimage::on_cTrashIt_clicked()
     int index = images.indexOf(workFilePath);
 
     // Function from utilities.cpp
-    if ( Utilities::moveToTrash(workFilePath) == true ) {
+    if ( Utilities::moveToTrash(QStringList()<< workFilePath) == true ) {
         images.removeAt(index);
         if (images.count() == 0) {
             cImageLabel->setPicture(QPicture());
@@ -507,5 +478,37 @@ void coreimage::sendFiles(const QStringList &paths)
 {
     if (paths.count()) {
         loadFile(Utilities::checkIsValidFile(paths.at(0)));
+    }
+}
+
+void coreimage::on_containingFolder_clicked()
+{
+     GlobalFunc::appEngine(GlobalFunc::Category::FileManager, QFileInfo(workFilePath).path());
+}
+
+void coreimage::on_openInEditor_clicked()
+{
+    GlobalFunc::appEngine(GlobalFunc::Category::ImageEditor, QFileInfo(workFilePath).path());
+}
+
+void coreimage::on_slideShow_clicked(bool checked)
+{
+    if(checked) {
+      on_cNormalSize_clicked();
+      if(!slideShowTimer) {
+        slideShowTimer = new QTimer();
+        // switch to the next image when timeout
+        connect(slideShowTimer, &QTimer::timeout, this, &coreimage::on_cNext_clicked);
+      }
+      ui->imageArea->showFullScreen();
+      slideShowTimer->start(3000);
+      ui->shortcut->setVisible(false);
+      if(ui->cTools->isChecked()){ui->cTools->setChecked(false);}
+    }
+    else {
+        if(slideShowTimer) {
+          delete slideShowTimer;
+          slideShowTimer = nullptr;
+        }
     }
 }

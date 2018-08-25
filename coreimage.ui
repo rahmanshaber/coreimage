@@ -358,7 +358,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="containingfolder">
+       <widget class="QPushButton" name="containingFolder">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -385,7 +385,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="openincorepaint">
+       <widget class="QPushButton" name="openInEditor">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -398,8 +398,8 @@
          <string>Open in Paint</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/icons/color.svg</normaloff>:/icons/color.svg</iconset>
+         <iconset resource="icons.qrc">
+          <normaloff>:/icons/editor.svg</normaloff>:/icons/editor.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -462,8 +462,8 @@
      <zorder>cZoomOut</zorder>
      <zorder>cNormalSize</zorder>
      <zorder>bookMarkIt</zorder>
-     <zorder>openincorepaint</zorder>
-     <zorder>containingfolder</zorder>
+     <zorder>openInEditor</zorder>
+     <zorder>containingFolder</zorder>
     </widget>
    </item>
    <item>

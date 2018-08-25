@@ -41,10 +41,11 @@ along with this program; if not, see {http://www.gnu.org/licenses/}. */
 #include <QDateTime>
 #include <QtConcurrent>
 #include <QShortcut>
+#include <QStringList>
 
-//#include "bookmarks/bookmarks.h"
 #include <cprime/utilities.h>
 #include <cprime/globalfunctions.h>
+#include <cprime/bookmarkdialog.h>
 
 
 namespace Ui {
@@ -76,13 +77,14 @@ private slots:
     void on_bookMarkIt_clicked();
     void on_cPrevious_clicked();
     void on_cNext_clicked();
-    void on_slideShow_clicked(bool checked);
     void on_cProperties_clicked(bool checked);
     void on_openincorepaint_clicked();
     void on_openThumbview_clicked();
-    void on_containingfolder_clicked();
     void on_thumnailView_itemClicked(QListWidgetItem *item);
     void on_cTrashIt_clicked();
+    void on_containingFolder_clicked();
+    void on_openInEditor_clicked();
+    void on_slideShow_clicked(bool checked);
 
 protected:
     virtual void wheelEvent(QWheelEvent *event);
@@ -100,7 +102,7 @@ private:
     QImage image;
     double scaleFactor;
     QLabel *cImageLabel;
-    bool   mousePressed;
+    bool   mousePressed , sildeShow;
     QPoint mousePos;
     QPoint wndPos;
 

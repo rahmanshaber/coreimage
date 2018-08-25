@@ -17,5 +17,6 @@
         <file>icons/CoreImage.svg</file>
         <file>icons/left.svg</file>
         <file>icons/right.svg</file>
+        <file>icons/editor.svg</file>
     </qresource>
 </RCC>
