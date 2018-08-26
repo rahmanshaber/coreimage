@@ -395,7 +395,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>Open in Paint</string>
+         <string>Open in Editor</string>
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">

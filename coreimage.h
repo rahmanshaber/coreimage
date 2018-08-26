@@ -78,7 +78,6 @@ private slots:
     void on_cPrevious_clicked();
     void on_cNext_clicked();
     void on_cProperties_clicked(bool checked);
-    void on_openincorepaint_clicked();
     void on_openThumbview_clicked();
     void on_thumnailView_itemClicked(QListWidgetItem *item);
     void on_cTrashIt_clicked();

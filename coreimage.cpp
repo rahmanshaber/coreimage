@@ -433,11 +433,6 @@ void coreimage::on_cProperties_clicked(bool checked)
     }
 }
 
-void coreimage::on_openincorepaint_clicked()
-{
-    GlobalFunc::appEngines("CorePaint", workFilePath);
-}
-
 void coreimage::on_openThumbview_clicked()
 {
     if (ui->openThumbview->isChecked()) {
@@ -484,11 +479,13 @@ void coreimage::sendFiles(const QStringList &paths)
 void coreimage::on_containingFolder_clicked()
 {
      GlobalFunc::appEngine(GlobalFunc::Category::FileManager, QFileInfo(workFilePath).path());
+     qDebug()<< QFileInfo(workFilePath).path();
 }
 
 void coreimage::on_openInEditor_clicked()
 {
-    GlobalFunc::appEngine(GlobalFunc::Category::ImageEditor, QFileInfo(workFilePath).path());
+
+    GlobalFunc::appEngine(GlobalFunc::Category::ImageEditor, workFilePath);
 }
 
 void coreimage::on_slideShow_clicked(bool checked)
