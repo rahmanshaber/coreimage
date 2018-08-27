@@ -56,7 +56,7 @@ unix {
         desktop.path = $$PREFIX/share/applications/
         desktop.files = "CoreImage.desktop"
 
-        icons.path = $$PREFIX/share/icons/CoreApps/
+        icons.path = $$PREFIX/share/coreapps/icons/
         icons.files = icons/CoreImage.svg
 
         INSTALLS += target icons desktop

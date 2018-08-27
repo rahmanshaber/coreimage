@@ -2,7 +2,7 @@
 Name=CoreImage
 Comment=CoreImage is image viewer from CoreApps.
 Exec=coreimage %F
-Icon=/usr/share/icons/CoreApps/CoreImage.svg
+Icon=/usr/share/coreapps/icons/CoreImage.svg
 Type=Application
 Categories=Graphics;Viewer;Qt;Utility;
 Terminal=false
