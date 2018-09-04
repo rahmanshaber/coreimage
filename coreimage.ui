@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>989</width>
-    <height>659</height>
+    <width>712</width>
+    <height>474</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -531,8 +531,8 @@
        <widget class="QWidget" name="images">
         <property name="geometry">
          <rect>
-          <x>102</x>
-          <y>11</y>
+          <x>0</x>
+          <y>0</y>
           <width>553</width>
           <height>446</height>
          </rect>
