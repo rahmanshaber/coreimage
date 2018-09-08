@@ -218,6 +218,9 @@ void coreimage::setImage(const QImage &newImage)
     int ih = image.height();
     int cw = ui->imageArea->width();
     int ch = ui->imageArea->height();
+  
+    int tw = iw / 9.99;
+    int th = ih / 9.99;
 
     if (image.height() < ui->imageArea->height() && image.width() < ui->imageArea->width()){
         cImageLabel->setPixmap(QPixmap::fromImage(image));
@@ -229,10 +232,11 @@ void coreimage::setImage(const QImage &newImage)
         cImageLabel->resize(t2);
     }
     if (!(images.count() > 0)) {
-        QtConcurrent::run([this]() {
+        QtConcurrent::run([this, tw, th]() {
             QStringList l = getImages(QFileInfo(workFilePath).path());
             for (int i = 0; i < l.count(); ++i) {
-                QListWidgetItem *item = new QListWidgetItem(QIcon(QPixmap(l.at(i))), l.at(i));
+                QListWidgetItem *item = new QListWidgetItem(QIcon(QPixmap(l.at(i)).scaled(tw, th, Qt::KeepAspectRatio)), l.at(i));
+                item->setSizeHint(QSize(120, 100));
                 item->setFont(QFont(item->font().family(), 1));
                 ui->thumnailView->addItem(item);
             }
