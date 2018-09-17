@@ -176,6 +176,7 @@ bool coreimage::loadFile(const QString &fileName)
 {
     if (!fileName.isNull()) {
         workFilePath = fileName;
+        ui->thumnailView->clear();
         QImageReader reader(fileName);
         reader.setAutoTransform(true);
         const QImage newImage = reader.read();
