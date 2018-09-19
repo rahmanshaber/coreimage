@@ -4,6 +4,6 @@ Comment=CoreImage is image viewer from CoreApps.
 Exec=coreimage %F
 Icon=/usr/share/coreapps/icons/CoreImage.svg
 Type=Application
-Categories=Graphics;Viewer;Qt;Utility;
+Categories=Utility;Qt;Graphics;Viewer;
 Terminal=false
 StartupNotify=true
