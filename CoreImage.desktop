@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=CoreImage
-Comment=CoreImage is image viewer from CoreApps.
-Exec=coreimage %F
-Icon=/usr/share/coreapps/icons/CoreImage.svg
-Type=Application
-Categories=Utility;Qt;Graphics;Viewer;
-Terminal=false
-StartupNotify=true
