@@ -1,7 +1,7 @@
 # CoreImage
 An app of CoreApps family.CoreImage is image viewer.
 
-<img src="CoreImage.png" width="500">
+<img src="coreimage.png" width="500">
 
 ### Download
 
