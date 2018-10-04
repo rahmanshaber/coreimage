@@ -48,6 +48,7 @@ coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
     ui->propbox->setVisible(false);
     ui->line->setVisible(false);
     ui->thumnailView->setVisible(false);
+    ui->openThumbview->setVisible(false);
 
     if(workFilePath.isNull()){
         for (QPushButton *b : ui->shortcut->findChildren<QPushButton*>()){
@@ -232,17 +233,25 @@ void coreimage::setImage(const QImage &newImage)
         t2.scale(cw, ch, Qt::KeepAspectRatio);
         cImageLabel->resize(t2);
     }
+
+
     if (!(images.count() > 0)) {
-        QtConcurrent::run([this, tw, th]() {
-            QStringList l = getImages(QFileInfo(workFilePath).path());
-            for (int i = 0; i < l.count(); ++i) {
-                QListWidgetItem *item = new QListWidgetItem(QIcon(QPixmap(l.at(i)).scaled(tw, th, Qt::KeepAspectRatio)), l.at(i));
-                item->setSizeHint(QSize(120, 100));
-                item->setFont(QFont(item->font().family(), 1));
-                ui->thumnailView->addItem(item);
-            }
+        QtConcurrent::run([this]() {
+            getImages(QFileInfo(workFilePath).path());
         });
     }
+
+//    if (!(images.count() > 0)) {
+//        QtConcurrent::run([this, tw, th]() {
+//            QStringList l = getImages(QFileInfo(workFilePath).path());
+//            for (int i = 0; i < l.count(); ++i) {
+//                QListWidgetItem *item = new QListWidgetItem(QIcon(QPixmap(l.at(i)).scaled(tw, th, Qt::KeepAspectRatio)), l.at(i));
+//                item->setSizeHint(QSize(120, 100));
+//                item->setFont(QFont(item->font().family(), 1));
+//                ui->thumnailView->addItem(item);
+//            }
+//        });
+//    }
 
     QFileInfo info (workFilePath);
     QString typ = info.suffix();
