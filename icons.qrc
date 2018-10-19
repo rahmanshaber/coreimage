@@ -14,9 +14,9 @@
         <file>icons/trash.svg</file>
         <file>icons/zoom_in.svg</file>
         <file>icons/zoom_out.svg</file>
-        <file>icons/CoreImage.svg</file>
         <file>icons/left.svg</file>
         <file>icons/right.svg</file>
         <file>icons/editor.svg</file>
+        <file>icons/coreimage.svg</file>
     </qresource>
 </RCC>

@@ -28,10 +28,8 @@ void startSetup()
 {
     QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-    // set all the requried folders
-    Utilities::setupFolder(Utilities::FolderSetup::BookmarkFolder);
-    Utilities::setupFolder(Utilities::FolderSetup::DriveMountFolder);
-    Utilities::setupFolder(Utilities::FolderSetup::TrashFolder);
+    // set the requried folders
+    Utilities::setupFileFolder(Utilities::FileFolderSetup::MimeFile);
 
     // if setting file not exist create one with defult
     SettingsManage sm;
