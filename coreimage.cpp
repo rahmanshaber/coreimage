@@ -50,7 +50,8 @@ coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
     ui->thumnailView->setVisible(false);
     ui->openThumbview->setVisible(false);
 
-    if(workFilePath.isNull()){
+    workFilePath = nullptr;
+//    if(workFilePath.isNull()){
         for (QPushButton *b : ui->shortcut->findChildren<QPushButton*>()){
             b->setEnabled(false);
         }
@@ -61,7 +62,7 @@ coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
         ui->cTools->setEnabled(true);
         ui->cOpen->setEnabled(true);
         ui->appTitle->setEnabled(true);
-    }
+//    }
     shotcuts();
     sildeShow = false;
 }
@@ -154,8 +155,9 @@ void coreimage::mouseReleaseEvent(QMouseEvent *event)
     mousePressed = false;
 }
 
-QStringList coreimage::getImages(const QString path)
+QStringList coreimage::getImages(const QString &path)
 {
+    images.clear();
     QDir dir(path);
     //QStringList images;
     for (QString file : dir.entryList()) {
@@ -176,7 +178,6 @@ QStringList coreimage::getImages(const QString path)
 bool coreimage::loadFile(const QString &fileName)
 {
     if (!fileName.isNull()) {
-        workFilePath = fileName;
         ui->thumnailView->clear();
         QImageReader reader(fileName);
         reader.setAutoTransform(true);
@@ -187,6 +188,8 @@ bool coreimage::loadFile(const QString &fileName)
             Utilities::messageEngine(mess, Utilities::MessageType::Warning);
             return false;
         }
+
+        workFilePath = fileName;
         setImage(newImage);
         setWindowFilePath(fileName);
 
@@ -233,7 +236,6 @@ void coreimage::setImage(const QImage &newImage)
         t2.scale(cw, ch, Qt::KeepAspectRatio);
         cImageLabel->resize(t2);
     }
-
 
     if (!(images.count() > 0)) {
         QtConcurrent::run([this]() {
@@ -324,7 +326,7 @@ void coreimage::on_cOpen_clicked()
 {
     QFileDialog dialog(this, tr("Open File"));
     initializeImageFileDialog(dialog, QFileDialog::AcceptOpen);
-    while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
+    while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) { }
 }
 
 void coreimage::on_cZoomIn_clicked()
@@ -366,8 +368,10 @@ void coreimage::on_cRotateRight_clicked()
 bool coreimage::saveFile(const QString &fileName)
 {
     QImageWriter writer(fileName);
-
-    if (!writer.write(image)) {
+    QString temp = workFilePath;
+    workFilePath = fileName;
+    if (!writer.write(QImage(workFilePath))) {
+        workFilePath = temp;
         // Function from utilities.cpp
         QString mess = tr("Cannot write %1: %2").arg(QDir::toNativeSeparators(fileName)).arg(writer.errorString());
         Utilities::messageEngine(mess, Utilities::MessageType::Info);
@@ -383,7 +387,7 @@ bool coreimage::saveFile(const QString &fileName)
 void coreimage::on_cSave_clicked()
 {
     QImageWriter wr(workFilePath);
-    if (wr.write(image)) {
+    if (wr.write(QImage(workFilePath))) {
         // Function from utilities.cpp
         Utilities::messageEngine("Image Saved", Utilities::MessageType::Info);
     }
@@ -415,11 +419,11 @@ void coreimage::on_bookMarkIt_clicked()
 
 void coreimage::on_cPrevious_clicked()
 {
-    if (images.count() != 0) {
+    if (images.count()) {
         int currentIndex = images.indexOf(workFilePath);
-        if (currentIndex != 0) {
+        if (currentIndex) { // If index is greater than 0 load the previous one
             loadFile(images.at(currentIndex - 1));
-        } else {
+        } else { // When index is zero load the last image
             loadFile(images.at(images.count() - 1));
         }
     }
@@ -468,16 +472,17 @@ void coreimage::on_cTrashIt_clicked()
     int index = images.indexOf(workFilePath);
 
     // Function from utilities.cpp
-    if ( Utilities::moveToTrash(QStringList()<< workFilePath) == true ) {
+    if ( Utilities::moveToTrash(QStringList() << workFilePath) == true ) {
         images.removeAt(index);
         if (images.count() == 0) {
             cImageLabel->setPicture(QPicture());
         } else if (images.count() > 0) {
-            if (index == 0) on_cNext_clicked();
-            else if (index < (images.count() - 1)) {
-                on_cPrevious_clicked();
-            } else {
+            if (index == 0 || ((index < (images.count() - 1)) && index > 0)) {
+                workFilePath = images.at(index);
                 on_cNext_clicked();
+            } else if (index == (images.count() - 1)) {
+                workFilePath = images.at(index - 1);
+                on_cPrevious_clicked();
             }
         }
     }
