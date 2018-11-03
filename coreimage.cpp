@@ -24,11 +24,11 @@ coreimage::coreimage(QWidget *parent) :QWidget(parent), ui(new Ui::coreimage)
     ui->setupUi(this);
 
     // set stylesheet from style.qrc
-    setStyleSheet(Utilities::getStylesheetFileContent(Utilities::StyleAppName::CoreImageStyle));
+    setStyleSheet(CPrime::ThemeFunc::getStyleSheetFileContent(CPrime::StyleTypeName::CoreImageStyle));
 
     // set window size
-    int x = static_cast<int>(Utilities::screensize().width()  * .8);
-    int y = static_cast<int>(Utilities::screensize().height()  * .7);
+    int x = static_cast<int>(CPrime::InfoFunc::screenSize().width()  * .8);
+    int y = static_cast<int>(CPrime::InfoFunc::screenSize().height()  * .7);
     this->resize(x, y);
 
     scaleFactor = 1.0;
@@ -106,7 +106,7 @@ void coreimage::closeEvent(QCloseEvent *event)
 {
     event->ignore();
     // Function from utilities.cpp
-    Utilities::saveToRecent("CoreImage", workFilePath);
+    CPrime::InfoFunc::saveToRecent("CoreImage", workFilePath);
     event->accept();
 }
 
@@ -185,7 +185,7 @@ bool coreimage::loadFile(const QString &fileName)
         if (newImage.isNull()) {
             // Function from utilities.cpp
             QString mess = tr("Cannot load \n%1 \n%2").arg(QFileInfo(fileName).baseName(), reader.errorString()) ;
-            Utilities::messageEngine(mess, Utilities::MessageType::Warning);
+            CPrime::InfoFunc::messageEngine(mess, CPrime::MessageType::Warning,this);
             return false;
         }
 
@@ -264,7 +264,7 @@ void coreimage::setImage(const QImage &newImage)
     ui->name->setText("Name : " + nam + " ; ");
     ui->height->setText("Height : " + h + " px ; ");
     ui->width->setText("Width : " + w + " px ; ");
-    ui->size->setText("Size : " + Utilities::formatSize(info.size()) + " ; "); // Function from utilities.cpp
+    ui->size->setText("Size : " + CPrime::FileFunc::formatSize(static_cast<quint64>(info.size())) + " ; "); // Function from utilities.cpp
     ui->type->setText("Type : " + typ + " ; ");
 }
 
@@ -374,12 +374,12 @@ bool coreimage::saveFile(const QString &fileName)
         workFilePath = temp;
         // Function from utilities.cpp
         QString mess = tr("Cannot write %1: %2").arg(QDir::toNativeSeparators(fileName)).arg(writer.errorString());
-        Utilities::messageEngine(mess, Utilities::MessageType::Info);
+        CPrime::InfoFunc::messageEngine(mess, CPrime::MessageType::Info,this);
 
         return false;
     } else {
         // Function from utilities.cpp
-        Utilities::messageEngine("Image Saved", Utilities::MessageType::Info);
+        CPrime::InfoFunc::messageEngine("Image Saved", CPrime::MessageType::Info,this);
     }
     return true;
 }
@@ -389,7 +389,7 @@ void coreimage::on_cSave_clicked()
     QImageWriter wr(workFilePath);
     if (wr.write(QImage(workFilePath))) {
         // Function from utilities.cpp
-        Utilities::messageEngine("Image Saved", Utilities::MessageType::Info);
+        CPrime::InfoFunc::messageEngine("Image Saved", CPrime::MessageType::Info,this);
     }
 }
 
@@ -472,7 +472,7 @@ void coreimage::on_cTrashIt_clicked()
     int index = images.indexOf(workFilePath);
 
     // Function from utilities.cpp
-    if ( Utilities::moveToTrash(QStringList() << workFilePath) == true ) {
+    if (CPrime::TrashManager::moveToTrash(QStringList() << workFilePath) == true ) {
         images.removeAt(index);
         if (images.count() == 0) {
             cImageLabel->setPicture(QPicture());
@@ -491,20 +491,19 @@ void coreimage::on_cTrashIt_clicked()
 void coreimage::sendFiles(const QStringList &paths)
 {
     if (paths.count()) {
-        loadFile(Utilities::checkIsValidFile(paths.at(0)));
+        loadFile(CPrime::ValidityFunc::checkIsValidFile(paths.at(0)));
     }
 }
 
 void coreimage::on_containingFolder_clicked()
 {
-     GlobalFunc::appEngine(GlobalFunc::Category::FileManager, QFileInfo(workFilePath).path(),this);
-     qDebug()<< QFileInfo(workFilePath).path();
+    CPrime::AppOpenFunc::appEngine(CPrime::Category::FileManager, QFileInfo(workFilePath).path(),this);
+
 }
 
 void coreimage::on_openInEditor_clicked()
 {
-
-    GlobalFunc::appEngine(GlobalFunc::Category::ImageEditor, workFilePath,this);
+    CPrime::AppOpenFunc::appEngine(CPrime::Category::ImageEditor, workFilePath,this);
 }
 
 void coreimage::on_slideShow_clicked(bool checked)
